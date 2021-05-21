@@ -60,6 +60,7 @@ class HomeScreen extends StatelessWidget {
         }
         return Container(
           height: MediaQuery.of(context).size.height * 1,
+          color: Color(0xffb591fff),
           child: Center(
             child: CircularProgressIndicator(),
           ),
