@@ -14,27 +14,26 @@ A simple todo list application
 
 
 ## General Information
-
+This application has been created because i wanted to learn how to store datas localy on my application 
+and i also wanted to further understand state management with provider
 
 ## Technologies Used
 - Flutter - version 2.2.1 - free, the sdk to develop a cross-platform application
-- ASP.net core - version 3.1 - free. A c# framwork to develop the Web api
+- Hive - a lightweight NoSql database to store key value
 
-[@Newsroom](https://github.com/pierreEdimo/newsroom), is a link to the backend api
+
 
 ## Features
-- Read articles from several different authors 
-- Give Feedbacks through comments
-- Save Articles in the Bookmark 
-- Remove Articles from the Bookmark
-- Register new user
-- Sign In registered user 
-- Log out user
-- Edit personal Datas
-- Search an Article by Name
-- Sort Articles by Categories
-
+- Create a new List 
+- Edit the created list
+- delete the created list
+- Create task inside a list
+- edit tasks
+- check  when task is completed
+- check is task is important
+- delete task
 ## Illustrations
+![](image/erledigt.PNG)
 
 ## Setup
 this project has not been released yet. In order to test it, 
@@ -48,10 +47,10 @@ you need to clone the repository.
 ```
 
 # Clone this repository
-$ git clone https://github.com/pierreEdimo/newsroomApp
+$ git clone https://github.com/pierreEdimo/Erledigt.git
 
 # Go into the repository
-$ cd newsroomApp
+$ cd erledigt
 
 # Install dependencies
 $ flutter pub get
@@ -65,11 +64,10 @@ $ flutter run
 Project is: _in progress_
 
 ## To Do
-- Add a method to share an url in differents application
-- Add a method to upvote/downvote an article
-- Add push Notification
-- Add a Recommandation System
-- Add a forgot password method
+
+- Add local Notifications 
+- Add darkmode
+
 
 ## Contact
 Created by [@PierreEdimo](https://www.patricedimo.com/) - feel free to contact me!
