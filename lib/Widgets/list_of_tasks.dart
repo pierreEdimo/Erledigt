@@ -1,7 +1,5 @@
 import 'package:erledigt/Model/task.dart';
-import 'package:erledigt/Widgets/show_modal.dart';
 import 'package:erledigt/Widgets/task_container.dart';
-import 'package:erledigt/Widgets/task_menu.dart';
 import 'package:flutter/material.dart';
 
 class ListOfTasks extends StatelessWidget {
@@ -21,23 +19,16 @@ class ListOfTasks extends StatelessWidget {
             child: Text(
               error!,
               textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12.0,
+              ),
             ),
           )
         : ListView(
             children: tasks!
                 .map(
-                  (Task task) => InkWell(
-                    onTap: () => showCustomModal(
-                      taskMenu(
-                        task,
-                        context,
-                      ),
-                      context,
-                      MediaQuery.of(context).size.height * 0.31,
-                    ),
-                    child: TaskContainer(
-                      task: task,
-                    ),
+                  (Task task) => TaskContainer(
+                    task: task,
                   ),
                 )
                 .toList(),
