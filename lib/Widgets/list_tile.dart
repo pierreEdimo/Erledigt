@@ -5,7 +5,10 @@ Widget listTile(Icon icon, String title) {
     leading: icon,
     title: Text(
       title,
-      style: TextStyle(fontWeight: FontWeight.bold),
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 12.0,
+      ),
     ),
   );
 }
