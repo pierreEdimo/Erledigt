@@ -1,9 +1,8 @@
-class EditListArguments {
-  final String? name;
-  final int? id;
+import 'package:erledigt/Model/list_model.dart';
 
+class EditListArguments {
+  final ListModel listModel;
   EditListArguments(
-    this.name,
-    this.id,
+    this.listModel,
   );
 }
