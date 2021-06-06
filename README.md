@@ -33,7 +33,7 @@ and i also wanted to further understand state management with provider
 - check is task is important
 - delete task
 ## Illustrations
-![](https://github.com/pierreEdimo/Erledigt/blob/main/image/erledigt.PNG)
+![](https://github.com/pierreEdimo/Erledigt/blob/main/image/erledigt0.PNG)
 ![](https://github.com/pierreEdimo/Erledigt/blob/main/image/erledigt1.PNG)
 
 ## Setup
