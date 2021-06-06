@@ -1,4 +1,5 @@
 import 'package:erledigt/Model/edit_list_arguments.dart';
+import 'package:erledigt/Model/list_model.dart';
 import 'package:erledigt/Screens/edit_list_screen.dart';
 import 'package:erledigt/Service/list_service.dart';
 import 'package:erledigt/Widgets/list_tile.dart';
@@ -7,21 +8,17 @@ import 'package:provider/provider.dart';
 
 Widget listMenu(
   BuildContext context,
-  String name,
-  int id,
+  ListModel listModel,
 ) {
   return Column(
+    mainAxisSize: MainAxisSize.min,
     children: [
       InkWell(
-        onTap: () {
-          Navigator.of(context).pop();
-
-          Navigator.pushNamed(
-            context,
-            EditListScreen.routeName,
-            arguments: EditListArguments(name, id),
-          );
-        },
+        onTap: () => Navigator.popAndPushNamed(
+          context,
+          EditListScreen.routeName,
+          arguments: EditListArguments(listModel),
+        ),
         child: listTile(
           Icon(Icons.edit_outlined),
           'edit List',
@@ -29,7 +26,7 @@ Widget listMenu(
       ),
       InkWell(
         onTap: () {
-          Provider.of<ListService>(context, listen: false).deleteList(id);
+          Provider.of<ListService>(context, listen: false).deleList(listModel);
 
           Navigator.popUntil(
             context,
