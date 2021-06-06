@@ -1,29 +1,37 @@
-class Task {
-  final int? id;
-  final String? taskName;
-  final bool? isComplete;
-  final String? reminderTime;
-  final int? notesCount;
-  final bool? isImportant;
-  final int? listId;
+import 'package:hive/hive.dart';
+
+part 'task.g.dart';
+
+@HiveType(typeId: 1)
+class Task extends HiveObject {
+  @HiveField(0)
+  late String? taskName;
+
+  @HiveField(1)
+  late bool? isComplete;
+
+  @HiveField(2)
+  late DateTime? reminderTime;
+
+  @HiveField(3)
+  late bool? isImportant;
+
+  @HiveField(5)
+  late String? additionalNote;
+
+  @HiveField(6)
+  late int? listKey;
+
+  @HiveField(7)
+  late String? reminderHour;
 
   Task({
-    this.id,
     this.taskName,
     this.isComplete,
     this.reminderTime,
-    this.notesCount,
     this.isImportant,
-    this.listId,
+    this.additionalNote,
+    this.listKey,
+    this.reminderHour,
   });
-
-  factory Task.fromJson(Map<String, dynamic> json) => Task(
-        id: json['id'] as int,
-        taskName: json['taskName'] as String,
-        isComplete: json['isComplete'] as bool,
-        reminderTime: json['reminderTime'] as String,
-        notesCount: json['notesCount'] as int,
-        isImportant: json['isImportant'] as bool,
-        listId: json['listId'] as int,
-      );
 }
