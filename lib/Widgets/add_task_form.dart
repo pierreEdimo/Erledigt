@@ -1,22 +1,51 @@
-import 'package:erledigt/Model/create_task.dart';
+import 'package:erledigt/Model/list_model.dart';
+import 'package:erledigt/Model/task.dart';
 import 'package:erledigt/Service/task_service.dart';
 import 'package:erledigt/Widgets/cancel_text_button.dart';
+import 'package:erledigt/Widgets/dateTime_input.dart';
+import 'package:erledigt/Widgets/description_input.dart';
+import 'package:erledigt/Widgets/hour_input.dart';
 import 'package:erledigt/Widgets/name_input.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../main.dart';
+
+TextEditingController _controller = TextEditingController();
+TextEditingController _descriptionController = TextEditingController();
+TextEditingController _dateTimeController = TextEditingController();
+TextEditingController _hourController = TextEditingController();
 
 Widget addTaskForm(
-  TextEditingController controller,
   BuildContext context,
-  int listId,
+  ListModel list,
 ) {
   return Form(
       child: Column(
+    mainAxisSize: MainAxisSize.min,
     children: [
       nameInput(
-        controller,
+        _controller,
         'Create a new Task',
+        true,
+      ),
+      SizedBox(
+        height: 20.0,
+      ),
+      descriptionInput(
+        _descriptionController,
+      ),
+      SizedBox(
+        height: 20.0,
+      ),
+      dateTimeInput(
+        _dateTimeController,
+        context,
+      ),
+      SizedBox(
+        height: 20.0,
+      ),
+      hourInput(
+        context,
+        _hourController,
       ),
       SizedBox(
         height: 20.0,
@@ -26,27 +55,41 @@ Widget addTaskForm(
         children: [
           cancelTextButton(context),
           TextButton(
-            onPressed: () async {
-              if (controller.text.isNotEmpty) {
-                String? userId = await storage.read(key: 'userId');
-                CreateTask newTask = CreateTask(
-                    userId: userId,
-                    isComplete: false,
-                    isImportant: false,
-                    taskName: controller.text,
-                    listId: listId);
+            onPressed: () {
+              if (_controller.text.isNotEmpty) {
+                Task newTask = new Task(
+                  taskName: _controller.text,
+                  additionalNote: _descriptionController.text,
+                  isComplete: false,
+                  isImportant: false,
+                  listKey: list.key,
+                );
+
+                if (_dateTimeController.text.isNotEmpty)
+                  newTask.reminderTime =
+                      DateTime.parse(_dateTimeController.text);
+
+                if (_hourController.text.isNotEmpty)
+                  newTask.reminderHour = _hourController.text;
 
                 Provider.of<TaskService>(context, listen: false)
-                    .createTask(newTask);
+                    .createTask(newTask, list);
 
                 Navigator.of(context).pop();
 
-                controller.text = "";
+                _controller.clear();
+                _descriptionController.clear();
               }
 
               DoNothingAction();
             },
-            child: Text('save'),
+            child: Text(
+              'save',
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           )
         ],
       )
