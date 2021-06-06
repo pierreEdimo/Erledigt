@@ -1,11 +1,15 @@
 import 'package:erledigt/Constants/constants.dart';
 import 'package:erledigt/Model/list_detail_arguments.dart';
+import 'package:erledigt/Model/task.dart';
+import 'package:erledigt/Service/task_service.dart';
+import 'package:erledigt/Widgets/add_task_form.dart';
 import 'package:erledigt/Widgets/custom_app_bar.dart';
 import 'package:erledigt/Widgets/custom_container.dart';
-import 'package:erledigt/Widgets/future_list_of_tasks.dart';
 import 'package:erledigt/Widgets/list_menu.dart';
+import 'package:erledigt/Widgets/list_of_tasks.dart';
 import 'package:erledigt/Widgets/show_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ListDetailScreen extends StatelessWidget {
   static const routeName = '/listdetail';
@@ -18,36 +22,33 @@ class ListDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: customAppBar(
         Container(
+          color: Colors.white,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    icon: Icon(
+                  InkWell(
+                    child: Icon(
                       Icons.keyboard_arrow_left_outlined,
-                      color: Color(0xffbffffff),
                     ),
-                    onPressed: () => Navigator.of(context).pop(),
+                    onTap: () => Navigator.of(context).pop(),
                   ),
                   Text(
-                    args.name!,
+                    args.list!.name!,
                     style: titleStyle,
                   ),
-                  IconButton(
-                    icon: Icon(
+                  InkWell(
+                    child: Icon(
                       Icons.more_vert_outlined,
-                      color: Color(0xffbffffff),
                     ),
-                    onPressed: () => showCustomModal(
+                    onTap: () => showCustomModal(
                       listMenu(
                         context,
-                        args.name!,
-                        args.id!,
+                        args.list!,
                       ),
                       context,
-                      MediaQuery.of(context).size.height * 0.35,
                     ),
                   )
                 ],
@@ -57,10 +58,24 @@ class ListDetailScreen extends StatelessWidget {
         ),
       ),
       body: CustomContainer(
-        child: FutureListOfTask(
-          id: args.id,
+        child: Consumer<TaskService>(
+          builder: (context, task, child) {
+            List<Task> tasks = task.getTasks(args.list!);
+
+            return ListOfTasks(
+              tasks: tasks,
+              error: 'there are no Tasks in ${args.list!.name}\n' +
+                  "please tap on '+' to create a new task",
+            );
+          },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () =>
+            showCustomModal(addTaskForm(context, args.list!), context),
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
