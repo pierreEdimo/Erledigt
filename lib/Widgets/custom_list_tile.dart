@@ -12,7 +12,9 @@ Widget customListTile(
       ),
       Text(
         title,
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(
+          fontSize: 12.0,
+        ),
       ),
     ],
   );
