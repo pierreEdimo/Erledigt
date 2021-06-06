@@ -1,62 +1,75 @@
-import 'package:erledigt/Model/create_list.dart';
 import 'package:erledigt/Model/list_detail_arguments.dart';
 import 'package:erledigt/Model/list_model.dart';
 import 'package:erledigt/Screens/list_detail_screen.dart';
 import 'package:erledigt/Service/list_service.dart';
 import 'package:erledigt/Widgets/cancel_text_button.dart';
+import 'package:erledigt/Widgets/description_input.dart';
 import 'package:erledigt/Widgets/name_input.dart';
 import 'package:flutter/material.dart';
-import '../main.dart';
 import 'package:provider/provider.dart';
 
+TextEditingController _controller = TextEditingController();
+TextEditingController _descriptionController = TextEditingController();
+
 Widget addListForm(
-  TextEditingController controller,
   BuildContext context,
 ) {
   return Form(
-    child: Column(
-      children: [
-        nameInput(
-          controller,
-          'Create a new List',
-        ),
-        SizedBox(
-          height: 20.0,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            cancelTextButton(context),
-            TextButton(
-              onPressed: () async {
-                if (controller.text.isNotEmpty) {
-                  String? userId = await storage.read(key: 'userId');
-                  CreateList newList = CreateList(
-                    userId: userId,
-                    name: controller.text,
-                    emojiUrl: '☰',
-                  );
-                  ListModel list =
-                      await Provider.of<ListService>(context, listen: false)
-                          .createList(newList);
+    child: SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          nameInput(
+            _controller,
+            'Create a new List',
+            true,
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          descriptionInput(
+            _descriptionController,
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              cancelTextButton(context),
+              TextButton(
+                onPressed: () {
+                  if (_controller.text.isNotEmpty) {
+                    ListModel newList = new ListModel(
+                      name: _controller.text,
+                      description: _descriptionController.text,
+                    );
 
-                  Navigator.of(context).pop();
+                    Provider.of<ListService>(context, listen: false)
+                        .createNewList(newList);
 
-                  Navigator.pushNamed(
-                    context,
-                    ListDetailScreen.routeName,
-                    arguments: ListDetailArguments(list.id, list.name),
-                  );
+                    Navigator.of(context).popAndPushNamed(
+                      ListDetailScreen.routeName,
+                      arguments: ListDetailArguments(newList),
+                    );
 
-                  controller.text = "";
-                }
-                DoNothingAction();
-              },
-              child: Text("save"),
-            )
-          ],
-        )
-      ],
+                    _controller.clear();
+                    _descriptionController.clear();
+                  }
+                  DoNothingAction();
+                },
+                child: Text(
+                  "save",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12.0,
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
     ),
   );
 }
