@@ -1,70 +1,36 @@
-import 'dart:convert';
-
-import 'package:erledigt/Model/create_list.dart';
 import 'package:erledigt/Model/list_model.dart';
-import 'package:erledigt/main.dart';
+import 'package:erledigt/Model/task.dart';
+import 'package:erledigt/boxes.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart';
 
 class ListService extends ChangeNotifier {
-  ListService() {
-    fetchLists();
-  }
+  final _listBox = Boxes.getLists();
+  final _taskBox = Boxes.getTasks();
 
-  Future<List<ListModel>> fetchLists() async {
-    String? userId = await storage.read(key: 'userId');
-    Response response = await get(
-      Uri.parse(
-          'https://elerdigt-api.azurewebsites.net/api/lists/Filter?userId=$userId&&SortOrder=asc'),
-    );
-
-    if (response.statusCode == 200) {
-      List<dynamic> body = jsonDecode(response.body);
-
-      List<ListModel> lists =
-          body.map((dynamic list) => ListModel.fromJson(list)).toList();
-
-      return lists;
-    } else {
-      throw "No Lists";
-    }
-  }
-
-  Future<ListModel> createList(CreateList newList) async {
-    Map<String, String> headers = {'Content-Type': 'application/json'};
-    String jsEncode;
-    jsEncode = jsonEncode(newList);
-    final Response response = await post(
-      Uri.parse('https://elerdigt-api.azurewebsites.net/api/lists/'),
-      headers: headers,
-      body: jsEncode,
-    );
-    notifyListeners();
-    if (response.statusCode == 201) {
-      return ListModel.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception("Failed to load List");
-    }
-  }
-
-  Future<void> updateList(CreateList newList, int id) async {
-    Map<String, String> headers = {'Content-Type': 'application/json'};
-    String jsEncode;
-    jsEncode = jsonEncode(newList);
-    await put(
-      Uri.parse('https://elerdigt-api.azurewebsites.net/api/lists/$id'),
-      body: jsEncode,
-      headers: headers,
-    );
+  void createNewList(ListModel listModel) {
+    _listBox.add(listModel);
     notifyListeners();
   }
 
-  Future<void> deleteList(int id) async {
-    Map<String, String> headers = {'Content-Type': 'application/json'};
-    await delete(
-      Uri.parse('https://elerdigt-api.azurewebsites.net/api/lists/$id'),
-      headers: headers,
-    );
+  getLists() {
+    List<ListModel> lists = <ListModel>[];
+    lists = _listBox.values.toList();
+    return lists;
+  }
+
+  getTaskCount(ListModel? list) {
+    List<Task> tasks = <Task>[];
+    tasks = _taskBox.values.where((x) => x.listKey == list!.key).toList();
+    return tasks.length;
+  }
+
+  deleList(ListModel listModel) {
+    listModel.delete();
+    notifyListeners();
+  }
+
+  editList(int key, ListModel listModel) {
+    _listBox.put(key, listModel);
     notifyListeners();
   }
 }
