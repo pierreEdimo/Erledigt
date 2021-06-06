@@ -1,9 +1,7 @@
-class ListDetailArguments {
-  final int? id;
-  final String? name;
+import 'package:erledigt/Model/list_model.dart';
 
-  ListDetailArguments(
-    this.id,
-    this.name,
-  );
+class ListDetailArguments {
+  final ListModel? list;
+
+  ListDetailArguments(this.list);
 }
