@@ -1,12 +1,12 @@
+import 'package:erledigt/Model/task.dart';
 import 'package:erledigt/Service/task_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class RoundCheckbox extends StatefulWidget {
-  final bool? isFinished;
-  final int? taskId;
+  final Task? task;
 
-  RoundCheckbox({Key? key, this.isFinished, this.taskId}) : super(key: key);
+  RoundCheckbox({Key? key, this.task}) : super(key: key);
 
   @override
   _RoundCheckboxState createState() => _RoundCheckboxState();
@@ -17,23 +17,32 @@ class _RoundCheckboxState extends State<RoundCheckbox> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (widget.isFinished == false) {
-          Provider.of<TaskService>(context, listen: false)
-              .patchTask(true, widget.taskId!);
+        Task finishedTask = widget.task!;
+        if (widget.task!.isComplete! != true) {
+          finishedTask.isComplete = true;
+        } else {
+          finishedTask.isComplete = false;
         }
-        Provider.of<TaskService>(context, listen: false)
-            .patchTask(false, widget.taskId!);
+
+        setState(() {
+          Provider.of<TaskService>(context, listen: false)
+              .editTask(finishedTask);
+        });
       },
       child: Container(
+        width: 21.0,
+        height: 21.0,
+        margin: EdgeInsets.only(left: 5.0, right: 10.0),
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: widget.isFinished! ? Color(0xFFB000000) : Color(0xFFBFFFFFF),
+          color: widget.task!.isComplete!
+              ? Color(0xFFB000000)
+              : Color(0xFFBFFFFFF),
+          borderRadius: BorderRadius.circular(50.0),
           border: Border.all(
             color: Color(0xFFB000000),
           ),
         ),
-        padding: EdgeInsets.all(5.0),
-        child: widget.isFinished!
+        child: widget.task!.isComplete!
             ? Icon(
                 Icons.check,
                 size: 10.0,
