@@ -1,21 +1,17 @@
-class ListModel {
-  final int? id;
-  final String? name;
-  final String? emojiUrl;
+import 'package:hive/hive.dart';
 
-  final int? taskCount;
+part 'list_model.g.dart';
+
+@HiveType(typeId: 0)
+class ListModel extends HiveObject {
+  @HiveField(0)
+  late String? name;
+
+  @HiveField(2)
+  late String? description;
 
   ListModel({
-    this.id,
     this.name,
-    this.emojiUrl,
-    this.taskCount,
+    this.description,
   });
-
-  factory ListModel.fromJson(Map<String, dynamic> json) => ListModel(
-        id: json['id'] as int,
-        name: json['name'] as String,
-        emojiUrl: json['emojiUrl'] as String,
-        taskCount: json['taskCount'] as int,
-      );
 }
