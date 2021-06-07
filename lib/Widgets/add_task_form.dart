@@ -1,5 +1,6 @@
 import 'package:erledigt/Model/list_model.dart';
 import 'package:erledigt/Model/task.dart';
+import 'package:erledigt/Service/notification_service.dart';
 import 'package:erledigt/Service/task_service.dart';
 import 'package:erledigt/Widgets/cancel_text_button.dart';
 import 'package:erledigt/Widgets/dateTime_input.dart';
@@ -65,9 +66,11 @@ Widget addTaskForm(
                   listKey: list.key,
                 );
 
-                if (_dateTimeController.text.isNotEmpty)
+                if (_dateTimeController.text.isNotEmpty) {
                   newTask.reminderTime =
                       DateTime.parse(_dateTimeController.text);
+                  NotificationService().sheduleReminder(newTask);
+                }
 
                 if (_hourController.text.isNotEmpty)
                   newTask.reminderHour = _hourController.text;
@@ -79,6 +82,8 @@ Widget addTaskForm(
 
                 _controller.clear();
                 _descriptionController.clear();
+                _hourController.clear();
+                _dateTimeController.clear();
               }
 
               DoNothingAction();

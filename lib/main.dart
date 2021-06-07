@@ -8,6 +8,7 @@ import 'package:erledigt/Screens/home_screen.dart';
 import 'package:erledigt/Screens/list_detail_screen.dart';
 import 'package:erledigt/Screens/settings_screen.dart';
 import 'package:erledigt/Service/list_service.dart';
+import 'package:erledigt/Service/notification_service.dart';
 import 'package:erledigt/Service/task_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -25,6 +26,8 @@ void main() async {
   await Hive.openBox<ListModel>('lists');
 
   await Hive.openBox<Task>('tasks');
+
+  NotificationService().init();
 
   runApp(MyApp());
 }

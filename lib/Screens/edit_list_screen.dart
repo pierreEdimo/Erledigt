@@ -3,7 +3,6 @@ import 'package:erledigt/Model/list_detail_arguments.dart';
 import 'package:erledigt/Model/list_model.dart';
 import 'package:erledigt/Screens/list_detail_screen.dart';
 import 'package:erledigt/Service/list_service.dart';
-import 'package:erledigt/Widgets/cancel_text_button.dart';
 import 'package:erledigt/Widgets/custom_app_bar.dart';
 import 'package:erledigt/Widgets/custom_container.dart';
 import 'package:erledigt/Widgets/description_input.dart';
@@ -64,37 +63,28 @@ class EditListScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  cancelTextButton(context),
-                  TextButton(
-                    onPressed: () {
-                      if (_controller.text.isNotEmpty) {
-                        ListModel listModel = ListModel(
-                          name: _controller.text,
-                          description: _descriptionController.text,
-                        );
+              Container(
+                alignment: Alignment.bottomRight,
+                child: TextButton(
+                  onPressed: () {
+                    if (_controller.text.isNotEmpty) {
+                      ListModel listModel = ListModel(
+                        name: _controller.text,
+                        description: _descriptionController.text,
+                      );
 
-                        Provider.of<ListService>(context, listen: false)
-                            .editList(args.listModel.key, listModel);
-
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          ListDetailScreen.routeName,
-                          ModalRoute.withName('/'),
-                          arguments: ListDetailArguments(listModel),
-                        );
-                      }
-                    },
-                    child: Text(
-                      "save",
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      Provider.of<ListService>(context, listen: false)
+                          .editList(args.listModel.key, listModel);
+                    }
+                  },
+                  child: Text(
+                    "save",
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                  )
-                ],
+                  ),
+                ),
               )
             ],
           ),

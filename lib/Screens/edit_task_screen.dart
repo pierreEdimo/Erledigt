@@ -1,7 +1,6 @@
 import 'package:erledigt/Model/edit_task_arguments.dart';
 import 'package:erledigt/Model/task.dart';
 import 'package:erledigt/Service/task_service.dart';
-import 'package:erledigt/Widgets/cancel_text_button.dart';
 import 'package:erledigt/Widgets/custom_app_bar.dart';
 import 'package:erledigt/Widgets/custom_container.dart';
 import 'package:erledigt/Widgets/dateTime_input.dart';
@@ -38,17 +37,25 @@ class EditTaskScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 25.0),
           child: Center(
             child: Container(
-              alignment: Alignment.centerRight,
-              child: InkWell(
-                onTap: () {
-                  Provider.of<TaskService>(context, listen: false)
-                      .deleTask(args.task!);
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Icon(Icons.keyboard_arrow_left_outlined),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Provider.of<TaskService>(context, listen: false)
+                          .deleTask(args.task!);
 
-                  Navigator.of(context).pop();
-                },
-                child: Icon(
-                  Icons.delete_outlined,
-                ),
+                      Navigator.of(context).pop();
+                    },
+                    child: Icon(
+                      Icons.delete_outlined,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -91,37 +98,33 @@ class EditTaskScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  cancelTextButton(context),
-                  TextButton(
-                    onPressed: () async {
-                      if (_controller.text.isNotEmpty) {
-                        Task finishedTask = args.task!;
-                        finishedTask.taskName = _controller.text;
-                        finishedTask.additionalNote =
-                            _descriptionController.text;
+              Container(
+                alignment: Alignment.bottomRight,
+                child: TextButton(
+                  onPressed: () async {
+                    if (_controller.text.isNotEmpty) {
+                      Task finishedTask = args.task!;
+                      finishedTask.taskName = _controller.text;
+                      finishedTask.additionalNote = _descriptionController.text;
 
-                        if (_dateTimeController.text.isNotEmpty ||
-                            args.task!.reminderTime != null)
-                          finishedTask.reminderTime =
-                              DateTime.parse(_dateTimeController.text);
+                      if (_dateTimeController.text.isNotEmpty ||
+                          args.task!.reminderTime != null)
+                        finishedTask.reminderTime =
+                            DateTime.parse(_dateTimeController.text);
 
-                        Provider.of<TaskService>(context, listen: false)
-                            .editTask(finishedTask);
-                      }
-                      DoNothingAction();
-                    },
-                    child: Text(
-                      "save",
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      Provider.of<TaskService>(context, listen: false)
+                          .editTask(finishedTask);
+                    }
+                    DoNothingAction();
+                  },
+                  child: Text(
+                    "save",
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                  )
-                ],
+                  ),
+                ),
               )
             ],
           ),
