@@ -44,17 +44,44 @@ class EditTaskScreen extends StatelessWidget {
                     onTap: () => Navigator.of(context).pop(),
                     child: Icon(Icons.keyboard_arrow_left_outlined),
                   ),
-                  InkWell(
-                    onTap: () {
-                      Provider.of<TaskService>(context, listen: false)
-                          .deleTask(args.task!);
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          if (_controller.text.isNotEmpty) {
+                            Task finishedTask = args.task!;
+                            finishedTask.taskName = _controller.text;
+                            finishedTask.additionalNote =
+                                _descriptionController.text;
 
-                      Navigator.of(context).pop();
-                    },
-                    child: Icon(
-                      Icons.delete_outlined,
-                    ),
-                  ),
+                            finishedTask.reminderTime =
+                                DateTime.parse(_dateTimeController.text);
+
+                            finishedTask.reminderHour = _hourController.text;
+
+                            Provider.of<TaskService>(context, listen: false)
+                                .editTask(finishedTask);
+                          }
+                          DoNothingAction();
+                        },
+                        child: Icon(Icons.save_outlined),
+                      ),
+                      SizedBox(
+                        width: 20.0,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Provider.of<TaskService>(context, listen: false)
+                              .deleTask(args.task!);
+
+                          Navigator.of(context).pop();
+                        },
+                        child: Icon(
+                          Icons.delete_outlined,
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -63,70 +90,39 @@ class EditTaskScreen extends StatelessWidget {
       ),
       body: CustomContainer(
         child: Form(
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      nameInput(
-                        _controller,
-                        "",
-                        false,
-                      ),
-                      SizedBox(
-                        height: 40.0,
-                      ),
-                      descriptionInput(
-                        _descriptionController,
-                      ),
-                      SizedBox(
-                        height: 40.0,
-                      ),
-                      dateTimeInput(
-                        _dateTimeController,
-                        context,
-                      ),
-                      SizedBox(
-                        height: 40.0,
-                      ),
-                      hourInput(
-                        context,
-                        _hourController,
-                      )
-                    ],
-                  ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                nameInput(
+                  _controller,
+                  "",
+                  false,
                 ),
-              ),
-              Container(
-                alignment: Alignment.bottomRight,
-                child: TextButton(
-                  onPressed: () async {
-                    if (_controller.text.isNotEmpty) {
-                      Task finishedTask = args.task!;
-                      finishedTask.taskName = _controller.text;
-                      finishedTask.additionalNote = _descriptionController.text;
-
-                      if (_dateTimeController.text.isNotEmpty ||
-                          args.task!.reminderTime != null)
-                        finishedTask.reminderTime =
-                            DateTime.parse(_dateTimeController.text);
-
-                      Provider.of<TaskService>(context, listen: false)
-                          .editTask(finishedTask);
-                    }
-                    DoNothingAction();
-                  },
-                  child: Text(
-                    "save",
-                    style: TextStyle(
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                SizedBox(
+                  height: 40.0,
                 ),
-              )
-            ],
+                descriptionInput(
+                  _descriptionController,
+                ),
+                SizedBox(
+                  height: 40.0,
+                ),
+                dateTimeInput(
+                  _dateTimeController,
+                  context,
+                ),
+                SizedBox(
+                  height: 40.0,
+                ),
+                hourInput(
+                  context,
+                  _hourController,
+                ),
+                SizedBox(
+                  height: 20.0,
+                )
+              ],
+            ),
           ),
         ),
       ),
