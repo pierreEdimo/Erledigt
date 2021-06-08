@@ -29,8 +29,8 @@ class ListService extends ChangeNotifier {
     notifyListeners();
   }
 
-  editList(int key, ListModel listModel) {
-    _listBox.put(key, listModel);
+  editList(ListModel listModel) {
+    listModel.save();
     notifyListeners();
   }
 }
