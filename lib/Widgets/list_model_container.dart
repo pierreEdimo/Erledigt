@@ -1,6 +1,6 @@
-import 'package:erledigt/Model/list_detail_arguments.dart';
+import 'package:erledigt/Model/edit_list_arguments.dart';
 import 'package:erledigt/Model/list_model.dart';
-import 'package:erledigt/Screens/list_detail_screen.dart';
+import 'package:erledigt/Screens/edit_list_screen.dart';
 import 'package:erledigt/Service/list_service.dart';
 
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class _ListModelContainerState extends State<ListModelContainer> {
   fetchTaskCount(BuildContext context) {
     setState(() {
       taskCount = Provider.of<ListService>(context, listen: false)
-          .getTaskCount(widget.list);
+          .getTaskCount(widget.list!);
     });
     return taskCount;
   }
@@ -30,8 +30,8 @@ class _ListModelContainerState extends State<ListModelContainer> {
     return InkWell(
       onTap: () => Navigator.of(context)
           .pushNamed(
-            ListDetailScreen.routeName,
-            arguments: ListDetailArguments(widget.list),
+            EditListScreen.routeName,
+            arguments: EditListArguments(widget.list),
           )
           .then(
             (_) => fetchTaskCount(context),
@@ -52,12 +52,14 @@ class _ListModelContainerState extends State<ListModelContainer> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.list!.name!,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                    fontFamily: 'OpenSans',
+                Flexible(
+                  child: Text(
+                    widget.list!.name!,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                      fontFamily: 'OpenSans',
+                    ),
                   ),
                 ),
                 fetchTaskCount(context) == 0
