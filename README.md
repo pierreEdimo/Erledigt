@@ -34,7 +34,7 @@ and i also wanted to further understand state management with provider
 - delete task
 ## Illustrations
 ![](https://github.com/pierreEdimo/Erledigt/blob/main/image/Erledigt.PNG)
-![](https://github.com/pierreEdimo/Erledigt/blob/main/image/Erledigt1.PNG)
+![](https://github.com/pierreEdimo/Erledigt/blob/main/image/erledigt1.PNG)
 ![](https://github.com/pierreEdimo/Erledigt/blob/main/image/Erledigt2.PNG)
 
 ## Setup
