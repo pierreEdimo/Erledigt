@@ -55,7 +55,7 @@ class NotificationService {
       task.hashCode,
       task.taskName,
       "time to finish ${task.taskName}",
-      tz.TZDateTime.utc(
+      tz.TZDateTime.local(
         task.reminderTime!.year,
         task.reminderTime!.month,
         task.reminderTime!.day,
