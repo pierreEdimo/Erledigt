@@ -33,12 +33,9 @@ and i also wanted to further understand state management with provider
 - check is task is important
 - delete task
 ## Illustrations
-![](https://github.com/pierreEdimo/Erledigt/blob/main/image/erledigt0.PNG)
-![](https://github.com/pierreEdimo/Erledigt/blob/main/image/erledigt7.PNG)
+![](https://github.com/pierreEdimo/Erledigt/blob/main/image/Erledigt.PNG)
 ![](https://github.com/pierreEdimo/Erledigt/blob/main/image/erledigt1.PNG)
-![](https://github.com/pierreEdimo/Erledigt/blob/main/image/erledigt5.PNG)
-![](https://github.com/pierreEdimo/Erledigt/blob/main/image/erledigt8.PNG)
-![](https://github.com/pierreEdimo/Erledigt/blob/main/image/erledigt9.PNG)
+![](https://github.com/pierreEdimo/Erledigt/blob/main/image/Erledigt2.PNG)
 
 ## Setup
 this project has not been released yet. In order to test it, 
