@@ -15,16 +15,10 @@ class ListOfTasks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return tasks!.length < 1
-        ? Center(
-            child: Text(
-              error!,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12.0,
-              ),
-            ),
-          )
+        ? Container()
         : ListView(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
             children: tasks!
                 .map(
                   (Task task) => TaskContainer(
