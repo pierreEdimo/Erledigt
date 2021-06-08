@@ -1,5 +1,7 @@
+import 'package:erledigt/Model/edit_list_arguments.dart';
 import 'package:erledigt/Model/list_detail_arguments.dart';
 import 'package:erledigt/Model/list_model.dart';
+import 'package:erledigt/Screens/edit_list_screen.dart';
 import 'package:erledigt/Screens/list_detail_screen.dart';
 import 'package:erledigt/Service/list_service.dart';
 import 'package:erledigt/Widgets/cancel_text_button.dart';
@@ -49,8 +51,8 @@ Widget addListForm(
                         .createNewList(newList);
 
                     Navigator.of(context).popAndPushNamed(
-                      ListDetailScreen.routeName,
-                      arguments: ListDetailArguments(newList),
+                      EditListScreen.routeName,
+                      arguments: EditListArguments(newList),
                     );
 
                     _controller.clear();
